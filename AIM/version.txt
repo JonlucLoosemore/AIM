@@ -1,0 +1,6 @@
+v0.0.1
+
+#notes 
+
+this is a simple ai model running in a container 
+model is Mistral7B 4bit. should be good to run on 12GB VRAM

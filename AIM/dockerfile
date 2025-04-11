@@ -1,0 +1,28 @@
+# Use a CUDA-enabled base image for GPU support
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY app.py .
+
+# Create a directory for the model
+RUN mkdir -p /model
+
+# Expose the FastAPI port
+EXPOSE 8000
+
+# Command to run the FastAPI app
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
